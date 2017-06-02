@@ -15,4 +15,4 @@ $SERVICE_DIR/fsurf submit \
 	| tee submit.log
 
 id=$(cat submit.log | grep Workflow | cut -d " " -f 2)
-echo $id > jobid
+[ ! -z "$id" ] && echo -n $id > jobid
