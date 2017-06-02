@@ -6,6 +6,13 @@ if [ -z $TASK_DIR ]; then export TASK_DIR=`pwd`; fi
 
 T1=`$SERVICE_DIR/jq -r '.t1' config.json`
 
-$SERVICE_DIR/fsurf submit --subject='subject' --input=$T1 --defaced --deidentified | tee submit.log
+$SERVICE_DIR/fsurf submit \
+	--subject='subject' \
+	--input=$T1 \
+	--version "6.0.0" \
+	--defaced \
+	--deidentified \
+	| tee submit.log
+
 id=$(cat submit.log | grep Workflow | cut -d " " -f 2)
 echo $id > jobid

@@ -23,24 +23,29 @@ if [ -f jobid ]; then
     jobid=`cat jobid`
     $SERVICE_DIR/fsurf status --id $jobid > .status
     jobstate=`cat .status | grep Status | cut -d " " -f 2`
+    echo $jobstate
     if [ -z $jobstate ]; then
-        echo "Job removed?"
-        exit 2
+        exit 2 #removed?
     fi
     if [ $jobstate == "QUEUED" ]; then
-        echo "Waiting in the queue"
         exit 0
     fi
     if [ $jobstate == "RUNNING" ]; then
-	echo "Running"
 	tail -1 .status
         exit 0
     fi
+    if [ $jobstate == "DELETE PENDING" ]; then
+        exit 2
+    fi
+    if [ $jobstate == "DELETED" ]; then
+        exit 2
+    fi
     if [ $jobstate == "COMPLETED" ]; then
-        #need to load the data as part of status call.. (TODO should I spawn a separate process?)
+        #need to download result as part of status call.. (
+	#TODO should I spawn a separate process to do that?)
 	$SERVICE_DIR/fsurf output --id $jobid
-	if [ -s MRN_3_output.tar.bz2 ]; then
-		tar -jxvf *.bz2
+	if [ -s subject_output.tar.bz2 ]; then
+		tar -jxvf subject_output.tar.bz2
 		$SERVICE_DIR/fsurf remove --id $jobid
 	       	echo 1 > finished
 		exit 1
@@ -52,7 +57,8 @@ if [ -f jobid ]; then
     fi
 
     #assume failed for all other state
-    echo "Jobs failed ($jobstate)"
+    #'ERROR'
+    #'FAILED',
     exit 2
 fi
 
