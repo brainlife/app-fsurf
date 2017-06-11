@@ -14,5 +14,9 @@ $SERVICE_DIR/fsurf submit \
 	--deidentified \
 	| tee submit.log
 
+#to restart job
+rm -f finished
+rm -f jobid
+
 id=$(cat submit.log | grep Workflow | cut -d " " -f 2)
 [ ! -z "$id" ] && echo -n $id > jobid
