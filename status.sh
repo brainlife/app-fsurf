@@ -47,7 +47,7 @@ if [ -f jobid ]; then
 	outfile=${jobid}_subject_output
 	if [ -s ${outfile}.tar.bz2 ]; then
 		tar -jxvf ${outfile}.tar.bz2
-		mv $outfile output #neuro/freesurfer expects output to be called "output"
+		mv subject output #neuro/freesurfer expects output to be called "output"
 		$SERVICE_DIR/fsurf remove --id $jobid
 	       	echo 1 > finished
 		exit 1
