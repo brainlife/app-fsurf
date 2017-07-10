@@ -44,10 +44,10 @@ if [ -f jobid ]; then
         #need to download result as part of status call.. (
 	#TODO should I spawn a separate process to do that?)
 	$SERVICE_DIR/fsurf output --id $jobid
-	outfile=${jobid}_subject_output
-	if [ -s ${outfile}.tar.bz2 ]; then
-		tar -jxvf ${outfile}.tar.bz2
-		mv $outfile output #neuro/freesurfer expects output to be called "output"
+	outfile=${jobid}_subject_output.tar.bz2 #hope this won't change..
+	if [ -s ${outfile} ]; then
+		tar -jxvf ${outfile} && rm $outflie
+		mv subject output 
 		$SERVICE_DIR/fsurf remove --id $jobid
 	       	echo 1 > finished
 		exit 1
