@@ -49,6 +49,20 @@ if [ -f jobid ]; then
 		tar -jxvf ${outfile} && rm $outflie
 		mv subject output 
 		$SERVICE_DIR/fsurf remove --id $jobid
+
+
+		#generate brain vtk model (for visualization purpose)
+		module load freesurfer
+		if [ -f "output/surf/lh.pial" ]; then
+		    mris_decimate -d 0.1 output/surf/lh.pial lh.10.pial
+		    mris_convert lh.10.pial lh.10.vtk
+		fi
+
+		if [ -f "output/surf/rh.pial" ]; then
+		    mris_decimate -d 0.1 output/surf/rh.pial rh.10.pial
+		    mris_convert rh.10.pial rh.10.vtk
+		fi
+
 	       	echo 1 > finished
 		exit 1
 	else
