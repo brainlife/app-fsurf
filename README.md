@@ -7,11 +7,11 @@ As this application uses fsurf, you need to run this on any resource where fsurf
 
 Please see https://support.opensciencegrid.org/support/solutions/articles/12000008488-setting-up-fsurf-on-your-computer for more info on fsurf
 
-# Intallation
+## Intallation
 
 git clone this repo
 
-# Running (locally)
+## Running (locally)
  
 Create config.json on current directory.
 
@@ -24,8 +24,16 @@ Create config.json on current directory.
 
 Point to where you have your T1 anatonmy. It must be defaced and anonymized.
 
-# Running (via BrainLife)
+## Running (via BrainLife)
 
 Visit `https://brain-life.org`
 
+
+## fsurf
+
+```
+curl -L -o fsurf 'http://stash.osgconnect.net/+fsurf/fsurf'
+chmod +x fsurf
+
+```
 

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #allows test execution
-if [ -z $SERVICE_DIR ]; then export SERVICE_DIR=`pwd`; fi
 if [ -z $TASK_DIR ]; then export TASK_DIR=`pwd`; fi
 
 #return code 0 = running
@@ -21,7 +20,7 @@ fi
 
 if [ -f jobid ]; then
     jobid=`cat jobid`
-    $SERVICE_DIR/fsurf status --id $jobid > .status
+    ./fsurf status --id $jobid > .status
     jobstate=`cat .status | grep Status | cut -d " " -f 2`
     echo $jobstate
     if [ -z $jobstate ]; then
@@ -43,12 +42,12 @@ if [ -f jobid ]; then
     if [ $jobstate == "COMPLETED" ]; then
         #need to download result as part of status call.. (
 	#TODO should I spawn a separate process to do that?)
-	$SERVICE_DIR/fsurf output --id $jobid
+	./fsurf output --id $jobid
 	outfile=${jobid}_subject_output.tar.bz2 #hope this won't change..
 	if [ -s ${outfile} ]; then
 		tar -jxvf ${outfile} && rm $outflie
 		mv subject output 
-		$SERVICE_DIR/fsurf remove --id $jobid
+		./fsurf remove --id $jobid
 
 
 		#generate brain vtk model (for visualization purpose)
