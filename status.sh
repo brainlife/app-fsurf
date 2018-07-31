@@ -8,14 +8,16 @@ if [ -z $TASK_DIR ]; then export TASK_DIR=`pwd`; fi
 #return code 2 = failed
 
 if [ -f finished ]; then
-    code=`cat finished`
-    if [ $code -eq 0 ]; then
-        echo "finished successfully"
-        exit 1 #success!
-    else
-        echo "finished with code:$code"
-        exit 2 #failed
-    fi
+    echo "already finished"
+    exit 1
+#    code=`cat finished`
+#    if [ $code -eq 0 ]; then
+#        echo "finished successfully"
+#        exit 1 #success!
+#    else
+#        echo "finished with code:$code"
+#        exit 2 #failed
+#    fi
 fi
 
 if [ -f jobid ]; then
@@ -48,25 +50,10 @@ if [ -f jobid ]; then
 		tar -jxvf ${outfile} && rm $outflie
 		mv subject output 
 		./fsurf remove --id $jobid
-
-
-		#generate brain vtk model (for visualization purpose)
-		module load freesurfer
-		if [ -f "output/surf/lh.pial" ]; then
-		    mris_decimate -d 0.1 output/surf/lh.pial lh.10.pial
-		    mris_convert lh.10.pial lh.10.vtk
-		fi
-
-		if [ -f "output/surf/rh.pial" ]; then
-		    mris_decimate -d 0.1 output/surf/rh.pial rh.10.pial
-		    mris_convert rh.10.pial rh.10.vtk
-		fi
-
-	       	echo 1 > finished
+	       	touch finished
 		exit 1
 	else
 		echo "failed to download output file"
-		echo 2 > finished
 		exit 2
 	fi
     fi
