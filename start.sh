@@ -1,9 +1,6 @@
 #!/bin/bash
 
-#allows test execution
-if [ -z $TASK_DIR ]; then export TASK_DIR=`pwd`; fi
-
-T1=`./jq -r '.t1' config.json`
+T1=`jq -r '.t1' config.json`
 
 ./fsurf submit \
 	--subject='subject' \
